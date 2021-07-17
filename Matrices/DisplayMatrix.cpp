@@ -1,54 +1,73 @@
-#include <bits/stdc++.h>
-#include <vector>
+#include <iostream>
 using namespace std;
 
-vector<int> spiralOrder(vector<vector<int>> &matrix)
+#define M 5
+#define N 5
+
+void printSpiralOrder(int mat[M][N])
 {
-    vector<int> ans;
+    int top = 0, bottom = M - 1;
+    int left = 0, right = N - 1;
 
-    if (matrix.size() == 0)
-        return ans;
-
-    int R = matrix.size(), C = matrix[0].size();
-    vector<vector<bool>> seen(R, vector<bool>(C, false));
-    int dr[] = {0, 1, 0, -1};
-    int dc[] = {1, 0, -1, 0};
-    int r = 0, c = 0, di = 0;
-
-    // Iterate from 0 to R * C - 1
-    for (int i = 0; i < R * C; i++)
+    while (1)
     {
-        ans.push_back(matrix[r]);
-        seen[r] = true;
-        int cr = r + dr[di];
-        int cc = c + dc[di];
+        if (left > right)
+        {
+            break;
+        }
+        // print top row
+        for (int i = left; i <= right; i++)
+        {
+            cout << mat[top][i] << " ";
+        }
+        top++;
 
-        if (0 <= cr && cr < R && 0 <= cc && cc < C && !seen[cr][cc])
+        if (top > bottom)
         {
-            r = cr;
-            c = cc;
+            break;
         }
-        else
+        // print right column
+        for (int i = top; i <= bottom; i++)
         {
-            di = (di + 1) % 4;
-            r += dr[di];
-            c += dc[di];
+            cout << mat[i][right] << " ";
         }
+        right--;
+
+        if (left > right)
+        {
+            break;
+        }
+        // print bottom row
+        for (int i = right; i >= left; i--)
+        {
+            cout << mat[bottom][i] << " ";
+        }
+        bottom--;
+
+        if (top > bottom)
+        {
+            break;
+        }
+        // print left column
+        for (int i = bottom; i >= top; i--)
+        {
+            cout << mat[i][left] << " ";
+        }
+        left++;
     }
-    return ans;
 }
 
-// Driver code
 int main()
 {
-    vector<vector<int>> a{{1, 2, 3, 4},
-                          {5, 6, 7, 8},
-                          {9, 10, 11, 12},
-                          {13, 14, 15, 16}};
+    int mat[M][N] =
+        {
+            {1, 2, 3, 4, 5},
+            {16, 17, 18, 19, 6},
+            {15, 24, 25, 20, 7},
+            {14, 23, 22, 21, 8},
+            {13, 12, 11, 10, 9}};
 
-    for (int x : spiralOrder(a))
-    {
-        cout << x << " ";
-    }
+    printSpiralOrder(mat);
+
     return 0;
 }
